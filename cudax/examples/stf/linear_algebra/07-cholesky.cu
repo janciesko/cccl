@@ -363,9 +363,9 @@ void PDNRM2_HOST(matrix<double>* A, double* result)
   reserved::dot::set_current_color("red");
 #endif
 
-  for (int rowb = 0; rowb < A->mt; rowb++)
+  for (size_t rowb = 0; rowb < A->mt; rowb++)
   {
-    for (int colb = 0; colb < A->nt; colb++)
+    for (size_t colb = 0; colb < A->nt; colb++)
     {
       ctx.host_launch(A->handle(rowb, colb).read())->*[=](auto sA) {
         double res2 = 0.0;
@@ -640,7 +640,7 @@ int main(int argc, char** argv)
   int ndevs;
   cuda_safe_call(cudaGetDeviceCount(&ndevs));
 
-  for (size_t d = 0; d < ndevs; d++)
+  for (int d = 0; d < ndevs; d++)
   {
     auto lX = ctx.logical_data(shape_of<slice<double>>(1));
     ctx.parallel_for(exec_place::device(d), lX.shape(), lX.write())->*[] _CCCL_DEVICE(size_t, auto) {};
